@@ -53,10 +53,6 @@ let fetchId = fetch(`http://localhost:3000/api/products/${id}`)
         let quantity = document.getElementById("quantity");
         console.log(quantity);
 
-        const numberQuantity = quantity.value
-        console.log(numberQuantity);
-
-
         const button = document.getElementById("addToCart");
         console.log(button);
 
@@ -65,6 +61,8 @@ let fetchId = fetch(`http://localhost:3000/api/products/${id}`)
             event.preventDefault();
             console.log(button);
 
+            const numberQuantity = quantity.value
+            console.log(numberQuantity);
 
             //Récuperer les valeurs  / Ajouter au panier
             let optionsProduct = {
