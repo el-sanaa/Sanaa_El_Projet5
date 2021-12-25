@@ -4,7 +4,7 @@
 
 
 //Mettre dans variable keys et values qui sont dans le localstorage
-//Convertir données JSON du localstorage en format js
+//Convertir donnï¿½es JSON du localstorage en format js
 
 let productInLocalStorage = JSON.parse(localStorage.getItem("product"));
 console.log(productInLocalStorage);
@@ -141,7 +141,7 @@ for (let m = 0; m < oneModification.length; m++) {
     oneModification[m].addEventListener("click", (event) => {
         event.preventDefault();
 
-        //Selection de l'element à modifier en fonction de son id ET sa couleur
+        //Selection de l'element ï¿½ modifier en fonction de son id ET sa couleur
         let quantityChange = productInLocalStorage[m].quantityProduct;
         let quantityChangeValue = oneModification[m].valueAsNumber;
 
@@ -194,94 +194,97 @@ orders.addEventListener("click", (e) => {
         return `${value}: Veuillez renseigner ce champ`;
     }
 
-    //Expression régulière
+    
+    //Expression rÃ©guliÃ¨re
     const regExPrenomNomVille = (value) => {
         return /^([A-Za-z]{3,20})?([-]{0,1})?([A-Za-z]{3,20})$/.test(value);
     }
-    const regExemail = (value) => {
-        return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value);
+
+   const regExemail = (value) => {
+       return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value);
     }
 
     const regExAdresse = (value) => {
         return /^[A-Za-z0-9\s]{1,50}$/.test(value);
     }
 
-
-    function firstNameControl() {
-        //controler de la validité du prenom
-        const validPrenom = valueForm.Prenom;
-        if (regExPrenomNomVille(validPrenom)) {
-            firstNameErrorMsg.innerHTML = '';
-            return true;
-
-        } else {
-            firstNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
-            alert(alertFalse("Prenom"));
-            return false;
-        }
+    const alertFalse = (value) => {
+        return `${value}: Veuillez renseigner ce champ`;
     }
 
-    function lastNameControl() {
-        //controler le nom
-        const validNom = valueForm.Nom;
-        if (regExPrenomNomVille(validNom)) {
-            firstNameErrorMsg.innerHTML = '';
-            return true;
-        } else {
-            firstNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
-            alert(alertFalse("Nom"));
-            return false;
-        }
-    }
+        //controler la validation du prenom
+        function firstNameControl() {
+            const validPrenom = valueForm.Prenom
+            if(regExPrenomNomVille(validPrenom)){
+                 document.querySelector("#firstNameErrorMsg").textContent = "";
+                return true;
+            }else{
+                document.querySelector("#firstNameErrorMsg").textContent = "Veuillez renseigner ce champ";
+                alert(alertFalse("Prenom"));
+                return false;
+            }
+        };
 
-    function addressControl() {
-        //controler  l'adresse
-        const validAdresse = valueForm.Adresse
-        if (regExAdresse(validAdresse)) {
-            firstNameErrorMsg.innerHTML = '';
-            return true;
-        } else {
-            firstNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
-            alert(alertFalse("Adresse"));
-            return false;
-        }
-    };
+        //controler la validation du nom
+        function lastNameControl() {
+            const validNom = valueForm.Nom
+            if(regExPrenomNomVille(validNom)){
+                document.querySelector("#lastNameErrorMsg").textContent = "";
+                return true;
+            }else{
+                document.querySelector("#lastNameErrorMsg").textContent = "Veuillez renseigner ce champ";
+                alert(alertFalse("Nom"));
+                return false;
+            }
+        };
 
-    function cityControl() {
-        //controler la ville
-        const validVille = valueForm.Ville
-        if (regExPrenomNomVille(validVille)) {
-            firstNameErrorMsg.innerHTML = '';
-            return true;
-        } else {
-            firstNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
-            alert(alertFalse("Ville"));
-            return false;
-        }
-    };
+         //controler la validation de ville
+        function cityControl() {
+            const validVille = valueForm.Ville;
+            if (regExPrenomNomVille(validVille)) {
+                  document.querySelector("#cityErrorMsg").textContent = "";
+                 return true;
+            } else {
+                document.querySelector("#cityErrorMsg").textContent = "Veuillez renseigner ce champ";
+                 alert(alertFalse("Ville"));
+                 return false;
+            }
+        };
 
-    function emailControl() {
-        //controler l'email
-        const validemail = valueForm.Email
-        if (regExemail(validemail)) {
-            firstNameErrorMsg.innerHTML = '';
-            return true;
-        } else {
-            firstNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
-            alert(alertFalse("Email"));
-            return false;
-        }
-    };
-    
+        //controler  la validation de l'adresse
+        function addressControl() {
+            const validAdresse = valueForm.Adresse;
+            if (regExAdresse(validAdresse)) {
+                  document.querySelector("#addressErrorMsg").textContent = "";
+                 return true;
+            } else {
+                 document.querySelector("#addressErrorMsg").textContent = "Veuillez renseigner ce champ";
+                 alert("Adresse : Veuillez renseigner ce champ");
+                 return false;
+            }
+        };
+       
+         //controler la validation de l'email
+        function emailControl() {
+            const validemail = valueForm.Email;
+            if (regExemail(validemail)) {
+                   document.querySelector("#emailErrorMsg").textContent = "";
+                  return true;
+            } else {
+                  document.querySelector("#emailErrorMsg").textContent = "Veuillez renseigner ce champ";
+                  alert("Email : Veuillez renseigner ce champ");
+                  return false;
+            }
+        };
 
-   if (firstNameControl() && lastNameControl() && addressControl() && cityControl() && emailControl()) {
+        if (firstNameControl() && lastNameControl() && cityControl() && addressControl() && emailControl()) {
         //Mettre l'objet valueForm dans le local storage
         localStorage.setItem("valueForm", JSON.stringify(valueForm));
+     
+        } else {
+             return false;
+        }
 
-    } else {
-      alert("Veuillez renseigner ce champ");
-    return false;
-    }
 
     //Mettre les valeurs du formulaire et les produits choisi ds un objet a envoyer vers le serveur
     const sendValueAndProducts = {
@@ -290,39 +293,37 @@ orders.addEventListener("click", (e) => {
     };
     console.log(sendValueAndProducts);
 
-    //Envoyer l'objet vers le serveur
+   
+    //Envoyer l'objet sendValueAndProducts vers le serveur
     const responsePost = fetch(`http://localhost:3000/api/products`, {
         method: "POST",
-        body: JSON.stringify(sendValueAndProducts),
+        body: JSON.stringify(),
         headers: {
-            "Content.Type": "application/json",
-            mode: 'no-cors'
+           
+            "Content-Type": "application/json",
+
 
         },
 
     });
-    console.log("responsePost");
+   
     console.log(responsePost);
-    
 
-    
+
 
 });
-
-
-//let form = document.querySelector(".cart__order__form");
-//console.log(form);
-
+   
 //Mettre le contenu du localStorage dans les champs du formulaire
 //Chercher la key dans le localstroge et la mettre ds une variable
 const dataLocalStorage = localStorage.getItem("valueForm");
-console.log(dataLocalStorage);
 
-//Convertir la chaine de caractère en objet js
+//Convertir la chaine de caractÃ¨re en objet js
 const objetData = JSON.parse(dataLocalStorage);
-console.log(objetData);
+//console.log(objetData);
 
-//Remplir le champ du formulaire avec les valeurs (les donnees)du local storage 
+ if (objetData => null) {
+        console.log("null");
+ } else {
 
     document.querySelector(`#firstName`).value = objetData.Prenom;
     document.querySelector(`#lastName`).value = objetData.Nom;
@@ -330,12 +331,12 @@ console.log(objetData);
     document.querySelector(`#city`).value = objetData.Ville;
     document.querySelector(`#email`).value = objetData.Email;
 
+        }
 
 
 
-
-
-
+    
+    
 
 
    

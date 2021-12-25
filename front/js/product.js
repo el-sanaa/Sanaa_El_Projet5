@@ -86,40 +86,42 @@ let fetchId = fetch(`http://localhost:3000/api/products/${id}`)
             console.log(productInLocalStorage);
 
             //Function pour une fenêtre pop-up
-            //Methode window.confirm
-            const confirmation = () => {
-                if (window.confirm(`Votre commande de ${numberQuantity}
+       //Methode window.confirm
+        const confirmation = () => {
+            if (window.confirm(`Votre commande de
+           
             ${selectedElements.name} ${selectedElements.colors} est ajoute au panier
             Pour consulter votre panier, cliquez sur OK`)) {
-                    window.location.href = "cart.html";
-                }
+                window.location.href = "cart.html";
+            }
+        }
+
+
+        // si il y a deja un produit enregistre dans le local storage
+    if (productInLocalStorage) {
+
+        //Ajouter le produit choisi dans localstorage
+        productInLocalStorage.push(optionsProduct);
+
+        //Ajouter les options et choix du client //Transformer en format JSON
+        localStorage.setItem("product", JSON.stringify(productInLocalStorage));
+        //    addProduct();
+            console.log(productInLocalStorage);
+            confirmation();
+        }
+
+    else {
+        //Si il n'y pas de produit enregistré dan le Locale storage
+        productInLocalStorage = [];
+        productInLocalStorage.push(optionsProduct);
+        localStorage.setItem("product", JSON.stringify(productInLocalStorage));
+        //   addProduct();
+            console.log(productInLocalStorage);
+            confirmation();
             }
 
-            //Function pour ajouter un produit selectione dans le local storage
-            const addProduct = () => {
-
-                //Ajouter le produit choisi dans localstorage
-                productInLocalStorage.push(optionsProduct);
-
-                //Ajouter les options et choix du client //Transformer en format JSON
-                localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
-                console.log(productInLocalStorage);
-
-            }
-            // si il y a deja un produit enregistre dans le local storage
-            if (productInLocalStorage) {
-                addProduct();
-                console.log(productInLocalStorage);
-                confirmation();
-            }
-            //Sinon
-            else {
-                productInLocalStorage = [];
-                addProduct();
-                console.log(productInLocalStorage);
-                confirmation();
-            }
-
-        })
-
+   
+      
     })
+    })  
+            
