@@ -148,7 +148,7 @@ for (let m = 0; m < oneModification.length; m++) {
 }
 
 
-//------------6estion du formulaire
+//------------Gestion du formulaire
 
 const orders = document.querySelector("#order");
 console.log(orders);
@@ -277,22 +277,48 @@ orders.addEventListener("click", (e) => {
     };
     console.log(sendValueAndProducts);
 
-    //Envoyer l'objet vers le serveur
-    const responsePost = fetch(`http://localhost:3000/api/products`, {
+    //Envoyer l'objet sendValueAndProducts vers le serveur
+        const responsePost = fetch(`http://localhost:3000/api/products`, {
         method: "POST",
         body: JSON.stringify(sendValueAndProducts),
         headers: {
-            "Content.Type": "application/json",
-            mode: 'no-cors'
+
+            'Accept': "application/json",
+            "Content-Type": "application/json",
 
         },
 
     });
-    console.log("responsePost");
-    console.log(responsePost);
-    
 
-    
+     //Voir le resultat du serveur dans la console 
+     responsePost.then(async (response) => {
+        try {
+            const contenu = await response.json();
+            console.log("contenus");
+            console.log(contenu);
+
+            
+                console.log(response);
+                localStorage.clear();
+                localStorage.setItem("contenuId", responseId);
+
+                document.location.href = "confirmation.html";
+
+         
+        }
+        catch (err) {
+           alert(`err`); 
+        }
+    });
+
+            console.log(responsePost);
+
+
+        } else {
+             return false;
+        };
+
+
 
 });
 
