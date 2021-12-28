@@ -104,7 +104,7 @@ if (productInLocalStorage) {
 
     //Ajouter les options et choix du client //Transformer en format JSON
     localStorage.setItem("product", JSON.stringify(productInLocalStorage));
-    //    addProduct();
+   
         console.log(productInLocalStorage);
         confirmation();
     } 
@@ -114,7 +114,7 @@ else {
     productInLocalStorage = [];
     productInLocalStorage.push(optionsProduct);
     localStorage.setItem("product", JSON.stringify(productInLocalStorage));
-    //   addProduct();
+    
         console.log(productInLocalStorage);
         confirmation();
         }
