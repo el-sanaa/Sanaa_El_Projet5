@@ -120,6 +120,7 @@ for (let q = 0; q < productInLocalStorage.length; q++) {
     quantities.innerHTML = totals;
     console.log(totals);
 
+}
 
 //Gestion de la modification du produit
 
@@ -304,20 +305,16 @@ orders.addEventListener("click", (e) => {
 
                 document.location.href = "confirmation.html";
 
-         
+
         }
         catch (err) {
            alert(`err`); 
         }
-    });
-
-            console.log(responsePost);
+               console.log(responsePost);
 
 
-        } else {
-             return false;
-        };
-
+     
+ });
 
 
 });
