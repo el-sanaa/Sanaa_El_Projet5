@@ -1,25 +1,22 @@
 
-//Fonction fetch (attraper) "api" et async faire attendre la reponse
-
 let productsData = []
 
 const fetchProducts = async () => {
     await fetch('http://localhost:3000/api/products')
-     .then((response) => response.json())
-     .then((data) => {
-         productsData = data
-         console.log(productsData);
-     }); 
- };
+        .then((response) => response.json())
+        .then((data) => {
+            productsData = data
+            console.log(productsData);
+        });
+};
 
-
- // injecter html et faire une boucle/ methode map
+// injecter html et faire une boucle/ methode map
  //Chercher un seul produit
- const productsDisplay = async () => {
-     await fetchProducts();
+const productsDisplay = async () => {
+    await fetchProducts();
 
-     document.getElementById("items").innerHTML = productsData.map(
-         (products) => `
+    document.getElementById("items").innerHTML = productsData.map(
+        (products) => `
        
      
      <a href="./product.html?id=${products._id}">
@@ -32,12 +29,11 @@ const fetchProducts = async () => {
      </a>
    
      `,
-        )
-         .join("");
+    )
+        .join("");
 
-        
-                    
-    };
- 
-    productsDisplay();
+};
+
+productsDisplay();
+
 
