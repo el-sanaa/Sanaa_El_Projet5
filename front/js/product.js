@@ -50,6 +50,7 @@ const colors = document.getElementById("colors");
 
 let quantity = document.getElementById("quantity");
         console.log(quantity);
+
 let color=document.getElementById("colors");
 
 
@@ -62,10 +63,12 @@ const button = document.getElementById("addToCart");
                 console.log(button);
 
         let numberQuantity = parseInt(quantity.value)
-
+        
+        //Alert pour indiquer de remplir le champ quantité
         if(numberQuantity<=0){
             alert("Veuillez SVP saisir un nombre d'article entre 1..100");
-            
+        
+        //Alert pour indiquer de remplir le champ couleur    
         }else if(color.value==""){
             alert("Veuillez SVP choisir une couleur  ");
         }
@@ -122,16 +125,18 @@ if (productInLocalStorage) {
 else {
     //Si il n'y pas de produit enregistr� dan le Locale storage
     productInLocalStorage = [];
+
+    //Ajouter le produit choisi dans localstorage
     productInLocalStorage.push(optionsProduct);
+
+    //Ajouter les options et choix du client //Transformer en format JSON
     localStorage.setItem("product", JSON.stringify(productInLocalStorage));
     
         console.log(productInLocalStorage);
         confirmation();
     }
 
-    
-
-         
+          
     }
  })
 })   

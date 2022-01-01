@@ -2,7 +2,7 @@
 //Mettre dans variable keys et values qui sont dans le localstorage
 //Convertir données JSON du localstorage en format js
 
-let products=JSON.parse(localStorage.getItem("product"));
+let products = JSON.parse(localStorage.getItem("product"));
 console.log(products);
 
 let productInLocalStorage = JSON.parse(localStorage.getItem("product"));
@@ -19,16 +19,12 @@ let detailsCarts = [];
 
 //Si le panier est vide afficher vide
 if (productInLocalStorage === null || productInLocalStorage == 0) {
-   
-    const emptyCart =
-        '<p>Panier est vide</p>';
-
+       const emptyCart =  '<p>Panier est vide</p>';
     cartsPosition.innerHTML = emptyCart;
 
 } else {
      //boucle for pour tous les produits stockés
     //Boucle for Si les produits sont les memes additionner les sommes 
-
     for(k=0;k<productInLocalStorage.length-1;k++){
         for(let j=k+1;j<productInLocalStorage.length;j++){
             if( productInLocalStorage[k].id==productInLocalStorage[j].id){
@@ -107,26 +103,26 @@ let itemsPrice = document.getElementsByClassName('itemQuantity');
 console.log(itemsPrice);
 
 let myLength = itemsPrice.length,
-allPrice = 0;
 
+allPrice = 0;
 for (let i = 0; i < myLength; ++i) {
     allPrice += itemsPrice[i].valueAsNumber;
 }
-
-let priceOfProduct = document.getElementById('totalPrice');
-priceOfProduct.innerHTML = allPrice;
-console.log(allPrice);
+    let priceOfProduct = document.getElementById('totalPrice');
+    priceOfProduct.innerHTML = allPrice;
+    console.log(allPrice);
 
 
 //Gestion de la quantite de produit
 let totalsQuantity = [];
+
 let quantityProduct=0;
 for (let q = 0; q < productInLocalStorage.length; q++) {
      quantityProduct +=parseInt(productInLocalStorage[q].quantity);
 }
-//Mettre les prix ds la variable 
-let quantities = document.getElementById("totalQuantity");
-quantities.innerHTML = quantityProduct;
+    //Mettre les prix ds la variable 
+    let quantities = document.getElementById("totalQuantity");
+    quantities.innerHTML = quantityProduct;
 
 
 
@@ -157,7 +153,6 @@ for (let m = 0; m < oneModification.length; m++) {
 
 
 //------------Gestion du formulaire
-
 const orders = document.querySelector("#order");
 console.log(orders);
 
@@ -184,7 +179,6 @@ orders.addEventListener("click", (e) => {
 
 
 
-    //----------Gestion du formulaire
     //Expression régulière
     const regExfirstNamelastNamecity = (value) => {
         return /^([A-Za-z]{3,20})?([-]{0,1})?([A-Za-z]{3,20})$/.test(value);
@@ -203,7 +197,7 @@ orders.addEventListener("click", (e) => {
     }
 
     function firstNameControl() {
-        //controler de la validité du firstName
+        //controler de la validité du prenom
         const validfirstName = contact.firstName;
         if (regExfirstNamelastNamecity(validfirstName)) {
             firstNameErrorMsg.innerHTML = '';
@@ -217,7 +211,7 @@ orders.addEventListener("click", (e) => {
     }
 
     function lastNameControl() {
-        //controler le lastName
+        //controler la validite du nom
         const validlastName = contact.lastName;
         if (regExfirstNamelastNamecity(validlastName)) {
             firstNameErrorMsg.innerHTML = '';
@@ -230,7 +224,7 @@ orders.addEventListener("click", (e) => {
     }
 
     function addressControl() {
-        //controler  l'address
+        //controler  la validite de l'adresse
         const validaddress = contact.address
         if (regExaddress(validaddress)) {
             firstNameErrorMsg.innerHTML = '';
@@ -243,7 +237,7 @@ orders.addEventListener("click", (e) => {
     };
 
     function cityControl() {
-        //controler la city
+        //controler la validite de la ville
         const validcity = contact.city
         if (regExfirstNamelastNamecity(validcity)) {
             firstNameErrorMsg.innerHTML = '';
@@ -256,7 +250,7 @@ orders.addEventListener("click", (e) => {
     };
 
     function emailControl() {
-        //controler l'email
+        //controler la validite de l'email
         const validemail = contact.email
         if (regEemailail(validemail)) {
             firstNameErrorMsg.innerHTML = '';
@@ -285,6 +279,7 @@ orders.addEventListener("click", (e) => {
     };
     console.log(sendValueAndProducts);
 
+    
     //Envoyer l'objet sendValueAndProducts vers le serveur
         const responsePost = fetch(`http://localhost:3000/api/products/order`, {
         method: "POST",
