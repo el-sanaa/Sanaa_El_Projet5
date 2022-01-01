@@ -5,68 +5,78 @@
 let productInLocalStorage = JSON.parse(localStorage.getItem("product"));
 console.log(productInLocalStorage);
 
-//Afficher produits du panier 
+//Afficher produits du panier
 //Injecter HTML
 const cartsPosition = document.querySelector("#cart__items");
 console.log(cartsPosition);
-
 
 let detailsCarts = [];
 
 //Si le panier est vide afficher vide
 if (productInLocalStorage === null || productInLocalStorage == 0) {
-    const emptyCart =
-        '<p>Panier est vide</p>';
+  const emptyCart = "<p>Panier est vide</p>";
 
-    cartsPosition.innerHTML = emptyCart;
+  cartsPosition.innerHTML = emptyCart;
 
 } else {
-    // sinon afficher produits dans le localstorage
-    //boucle for
+  // sinon afficher produits dans le localstorage
+  //boucle for
 
-    for (k = 0; k < productInLocalStorage.length; k++) {
-        console.log(productInLocalStorage.length);
+  for(k=0;k<productInLocalStorage.length-1;k++){
+        for(let j=k+1;j<productInLocalStorage.length;j++){
+            if( productInLocalStorage[k].id==productInLocalStorage[j].id){
+                productInLocalStorage[k].quantity=parseInt(productInLocalStorage[j].quantity)+parseInt(productInLocalStorage[k].quantity);
+               productInLocalStorage[k].price=parseInt(productInLocalStorage[k].price)+parseInt(productInLocalStorage[j].price);
+            productInLocalStorage.splice(j,1);
+            }
+        }
+    }
+ 
 
-        detailsCarts = detailsCarts + `
+  for (k = 0; k < productInLocalStorage.length; k++) {
+    console.log(productInLocalStorage.length);
+
+    detailsCarts =
+      detailsCarts +
+      `
         <article class="cart__item" data-id="${productInLocalStorage[k].id}" data-color="${productInLocalStorage[k].colors}">
-        <div class="cart__item__img">
+          <div class="cart__item__img">
             <img src="${productInLocalStorage[k].img}" alt=""${productInLocalStorage[k].altTxt}">
-                </div>
-            <div class="cart__item__content">
-                <div class="cart__item__content__description">
-                    <h2>${productInLocalStorage[k].title}</h2>
-                    <p>${productInLocalStorage[k].colors}</p>
-                    <p>${productInLocalStorage[k].price}</p>
-                </div>
-                <div class="cart__item__content__settings">
-                    <div class="cart__item__content__settings__quantity">
-                        <p>${productInLocalStorage[k].quantity}</p>
-                        <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${productInLocalStorage[k].price}">&euro;
-                    </div>
-                        <div class="cart__item__content__settings__delete">
-                            <p class="deleteItem">Supprimer</p>
-                        </div>
-                    </div>
-                </div>
-              </article>
+          </div>
+          <div class="cart__item__content">
+            <div class="cart__item__content__description">
+                <h2>${productInLocalStorage[k].title}</h2>
+                <p>${productInLocalStorage[k].color}</p>
+                <p>${productInLocalStorage[k].price} €</p>
+            </div>
+            <div class="cart__item__content__settings">
+              <div class="cart__item__content__settings__quantity">
+                  <p>${productInLocalStorage[k].quantity} : </p>
+                 <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${productInLocalStorage[k].price}">&euro;
+                    </div> 
+              <div class="cart__item__content__settings__delete">
+                  <p class="deleteItem">Supprimer</p>
+              </div>
+            </div>
+          </div>
+        </article>
 `;
-    }
+  }
 
-    if (k === productInLocalStorage.length) {
-        //Injecter html dans la page cart (panier)
-        cartsPosition.innerHTML = detailsCarts;
-
-    }
-}           
+  if (k === productInLocalStorage.length) {
+    //Injecter html dans la page cart (panier)
+    cartsPosition.innerHTML = detailsCarts;
+  }
+}
 
 
 
 //Gestion des articles supprimes
 let btnDelete = document.querySelectorAll(".deleteItem");
 
-for (let d = 0; d < btnDelete.length; d++) {
-    btnDelete[d].addEventListener("click", (event) => {
-        event.preventDefault();
+    for (let d = 0; d < btnDelete.length; d++) {
+        btnDelete[d].addEventListener("click", (event) => {
+            event.preventDefault();
 
         //Selectionner (l'id) et (la couleur) de l'element a supprimer
         let idDelete = productInLocalStorage[d].id;
@@ -82,11 +92,10 @@ for (let d = 0; d < btnDelete.length; d++) {
         alert("Article supprime");
         location.reload();
     });
-}
+    };
 
 
-
-// Récupération du total des quantités
+//Gestion du total des quantités
 let itemsPrice = document.getElementsByClassName('itemQuantity');
 console.log(itemsPrice);
 
@@ -104,53 +113,46 @@ console.log(allPrice);
 
 //Gestion de la quantite de produit
 let totalsQuantity = [];
-
+let quantityProduct=0;
 for (let q = 0; q < productInLocalStorage.length; q++) {
-    let quantityProduct = productInLocalStorage[q].quantity;
-
-    totalsQuantity.push(quantityProduct);
-    console.log(totalsQuantity);
-
-     //Methode .reduce 
-    const reducer = (accumulator, currentValue) => accumulator + currentValue;
-    const totals = totalsQuantity.reduce(reducer, 0);
-
-     //Mettre les prix ds la variable 
-    let quantities = document.getElementById("totalQuantity");
-    quantities.innerHTML = totals;
-    console.log(totals);
-
+     quantityProduct +=parseInt(productInLocalStorage[q].quantity);
 }
+//Mettre les prix ds la variable 
+let quantities = document.getElementById("totalQuantity");
+quantities.innerHTML = quantityProduct;
+
+
 
 //Gestion de la modification du produit
-
 let oneModification = document.querySelectorAll(".itemQuantity");
-console.log(oneModification);
+        console.log("Liste de neuds avec tout les input de quantité",oneModification);
 
-for (let m = 0; m < oneModification.length; m++) {
-    oneModification[m].addEventListener("click", (event) => {
-        event.preventDefault();
+    for (let m = 0; m < oneModification.length; m++) {
+        oneModification[m].addEventListener("change", (event) => {
+            event.preventDefault();
 
         //Selection de l'element à modifier en fonction de son id ET sa couleur
-        let quantityChange = productInLocalStorage[m].quantityProduct;
+        let quantityChange = productInLocalStorage[m].quantity;
+        console.log("quantité à modifier", quantityChange);
         let quantityChangeValue = oneModification[m].valueAsNumber;
 
-        const resultFind = produitLocalStorage.find((el) =>
-            el.quantityChangeValue !== quantityChange);
+        const resultFind = productInLocalStorage.find(
+          (el) => el.quantityChangeValue !== quantityChange
+        );
 
-        resultFind.quantityProduct = quantityChangeValue;
-        productInLocalStorage[m].quantityProduct = resultFind.quantityProduct;
+        resultFind.quantity = quantityChangeValue;
+        productInLocalStorage[m].quantity = resultFind.quantity;
 
-        localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
-
+        localStorage.setItem("product", JSON.stringify(productInLocalStorage));
         // refresh rapide
         location.reload();
-    })
-}
+      });
+    }
+
+
 
 
 //------------Gestion du formulaire
-
 const orders = document.querySelector("#order");
 console.log(orders);
 
@@ -162,124 +164,130 @@ orders.addEventListener("click", (e) => {
     //et y mettre les valeurs du formulaire
     class constructorObjet {
         constructor() {
-            this.Prenom = document.querySelector("#firstName").value;
-            this.Nom = document.querySelector("#lastName").value;
-            this.Adresse = document.querySelector("#address").value;
-            this.Ville = document.querySelector("#city").value;
-            this.Email = document.querySelector("#email").value;
+            this.firstName = document.querySelector("#firstName").value;
+            this.lastName = document.querySelector("#lastName").value;
+            this.address = document.querySelector("#address").value;
+            this.city = document.querySelector("#city").value;
+            this.email = document.querySelector("#email").value;
 
         }
     }
 
-    //Appeler class constructor => pour creer l'objet valueForm
-    const valueForm = new constructorObjet();
-    console.log(valueForm);
+    //Appeler class constructor => pour creer l'objet contact
+    const contact = new constructorObjet();
+    console.log(contact);
 
 
 
-    //----------Gestion du formulaire
     //Expression régulière
-    const regExPrenomNomVille = (value) => {
+    const regExfirstNamelastNamecity = (value) => {
         return /^([A-Za-z]{3,20})?([-]{0,1})?([A-Za-z]{3,20})$/.test(value);
     }
 
-   const regExemail = (value) => {
+   const regEemailail = (value) => {
        return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value);
     }
 
-    const regExAdresse = (value) => {
+    const regExaddress = (value) => {
         return /^[A-Za-z0-9\s]{1,50}$/.test(value);
     }
 
+
+    //Alert pour le remplissage des champs du formulaire  
     const alertFalse = (value) => {
         return `${value}: Veuillez renseigner ce champ`;
     }
 
     function firstNameControl() {
-        //controler de la validité du prenom
-        const validPrenom = valueForm.Prenom;
-        if (regExPrenomNomVille(validPrenom)) {
+        //controler de la validité du firstName
+        const validfirstName = contact.firstName;
+        if (regExfirstNamelastNamecity(validfirstName)) {
             firstNameErrorMsg.innerHTML = '';
             return true;
 
         } else {
             firstNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
-            alert(alertFalse("Prenom"));
+            alert(alertFalse("firstName"));
             return false;
         }
     }
 
     function lastNameControl() {
-        //controler le nom
-        const validNom = valueForm.Nom;
-        if (regExPrenomNomVille(validNom)) {
+        //controler le lastName
+        const validlastName = contact.lastName;
+        if (regExfirstNamelastNamecity(validlastName)) {
             firstNameErrorMsg.innerHTML = '';
             return true;
+        
         } else {
             firstNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
-            alert(alertFalse("Nom"));
+            alert(alertFalse("lastName"));
             return false;
         }
     }
 
     function addressControl() {
-        //controler  l'adresse
-        const validAdresse = valueForm.Adresse
-        if (regExAdresse(validAdresse)) {
+        //controler  l'address
+        const validaddress = contact.address
+        if (regExaddress(validaddress)) {
             firstNameErrorMsg.innerHTML = '';
             return true;
+        
         } else {
             firstNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
-            alert(alertFalse("Adresse"));
+            alert(alertFalse("address"));
             return false;
         }
     };
 
     function cityControl() {
-        //controler la ville
-        const validVille = valueForm.Ville
-        if (regExPrenomNomVille(validVille)) {
+        //controler la city
+        const validcity = contact.city
+        if (regExfirstNamelastNamecity(validcity)) {
             firstNameErrorMsg.innerHTML = '';
             return true;
+      
         } else {
             firstNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
-            alert(alertFalse("Ville"));
+            alert(alertFalse("city"));
             return false;
         }
     };
 
     function emailControl() {
         //controler l'email
-        const validemail = valueForm.Email
-        if (regExemail(validemail)) {
+        const validemail = contact.email
+        if (regEemailail(validemail)) {
             firstNameErrorMsg.innerHTML = '';
             return true;
+       
         } else {
             firstNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
-            alert(alertFalse("Email"));
+            alert(alertFalse("email"));
             return false;
         }
     };
     
 
    if (firstNameControl() && lastNameControl() && addressControl() && cityControl() && emailControl()) {
-        //Mettre l'objet valueForm dans le local storage
-        localStorage.setItem("valueForm", JSON.stringify(valueForm));
+        //Mettre l'objet contact dans le local storage
+        localStorage.setItem("contact", JSON.stringify(contact));
 
     } else {
       alert("Veuillez renseigner ce champ");
-    return false;
-    }
+         return false;
+            }
 
-    //Mettre les valeurs du formulaire et les produits choisi ds un objet a envoyer vers le serveur
+    
+     //Mettre les valeurs du formulaire et les produits choisi ds un objet a envoyer vers le serveur
     const sendValueAndProducts = {
-        productInLocalStorage,
-        valueForm,
+        products,
+        contact,
     };
     console.log(sendValueAndProducts);
 
     //Envoyer l'objet sendValueAndProducts vers le serveur
-        const responsePost = fetch(`http://localhost:3000/api/products`, {
+        const responsePost = fetch(`http://localhost:3000/api/products/order`, {
         method: "POST",
         body: JSON.stringify(sendValueAndProducts),
         headers: {
@@ -297,14 +305,9 @@ orders.addEventListener("click", (e) => {
             const contenu = await response.json();
             console.log("contenus");
             console.log(contenu);
-
-            
-                console.log(response);
                 localStorage.clear();
-                localStorage.setItem("contenuId", responseId);
-
+                localStorage.setItem("contenuId", contenu.orderId);
                 document.location.href = "confirmation.html";
-
 
         }
         catch (err) {
@@ -325,7 +328,7 @@ orders.addEventListener("click", (e) => {
 
 //Mettre le contenu du localStorage dans les champs du formulaire
 //Chercher la key dans le localstroge et la mettre ds une variable
-const dataLocalStorage = localStorage.getItem("valueForm");
+const dataLocalStorage = localStorage.getItem("contact");
 
 //Convertir la chaine de caractère en objet js
 const objetData = JSON.parse(dataLocalStorage);
@@ -335,21 +338,17 @@ const objetData = JSON.parse(dataLocalStorage);
         console.log("null");
  } else {
 
-    document.querySelector(`#firstName`).value = objetData.Prenom;
-    document.querySelector(`#lastName`).value = objetData.Nom;
-    document.querySelector(`#address`).value = objetData.Adresse;
-    document.querySelector(`#city`).value = objetData.Ville;
-    document.querySelector(`#email`).value = objetData.Email;
+    document.querySelector(`#firstName`).value = objetData.firstName;
+    document.querySelector(`#lastName`).value = objetData.lastName;
+    document.querySelector(`#address`).value = objetData.address;
+    document.querySelector(`#city`).value = objetData.city;
+    document.querySelector(`#email`).value = objetData.email;
 
  }
 
 
 
 
-
-
-
-   
 
 
 

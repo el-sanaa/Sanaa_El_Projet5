@@ -10,9 +10,9 @@ const fetchProducts = async () => {
         });
 };
 
-// injecter html et faire une boucle/ methode map
- //Chercher un seul produit
-const productsDisplay = async () => {
+// injecter html et faire une boucle
+// methode map
+ const productsDisplay = async () => {
     await fetchProducts();
 
     document.getElementById("items").innerHTML = productsData.map(
