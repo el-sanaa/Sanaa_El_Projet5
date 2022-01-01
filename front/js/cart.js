@@ -11,6 +11,7 @@ console.log(productInLocalStorage);
 //Afficher produits du panier 
 //Injecter HTML
 const cartsPosition = document.querySelector("#cart__items");
+console.log("testcartsPosition")
 console.log(cartsPosition);
 
 
