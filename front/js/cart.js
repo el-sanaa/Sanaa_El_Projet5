@@ -2,27 +2,33 @@
 //Mettre dans variable keys et values qui sont dans le localstorage
 //Convertir données JSON du localstorage en format js
 
+let products=JSON.parse(localStorage.getItem("product"));
+console.log(products);
+
 let productInLocalStorage = JSON.parse(localStorage.getItem("product"));
 console.log(productInLocalStorage);
 
-//Afficher produits du panier
+//Afficher produits du panier 
 //Injecter HTML
 const cartsPosition = document.querySelector("#cart__items");
 console.log(cartsPosition);
+
 
 let detailsCarts = [];
 
 //Si le panier est vide afficher vide
 if (productInLocalStorage === null || productInLocalStorage == 0) {
-  const emptyCart = "<p>Panier est vide</p>";
+   
+    const emptyCart =
+        '<p>Panier est vide</p>';
 
-  cartsPosition.innerHTML = emptyCart;
+    cartsPosition.innerHTML = emptyCart;
 
 } else {
-  // sinon afficher produits dans le localstorage
-  //boucle for
+     //boucle for pour tous les produits stockés
+    //Boucle for Si les produits sont les memes additionner les sommes 
 
-  for(k=0;k<productInLocalStorage.length-1;k++){
+    for(k=0;k<productInLocalStorage.length-1;k++){
         for(let j=k+1;j<productInLocalStorage.length;j++){
             if( productInLocalStorage[k].id==productInLocalStorage[j].id){
                 productInLocalStorage[k].quantity=parseInt(productInLocalStorage[j].quantity)+parseInt(productInLocalStorage[k].quantity);
@@ -33,50 +39,49 @@ if (productInLocalStorage === null || productInLocalStorage == 0) {
     }
  
 
-  for (k = 0; k < productInLocalStorage.length; k++) {
-    console.log(productInLocalStorage.length);
+    for (k = 0; k < productInLocalStorage.length; k++) {
+        console.log(productInLocalStorage.length);
 
-    detailsCarts =
-      detailsCarts +
-      `
+        detailsCarts = detailsCarts + `
         <article class="cart__item" data-id="${productInLocalStorage[k].id}" data-color="${productInLocalStorage[k].colors}">
-          <div class="cart__item__img">
+        <div class="cart__item__img">
             <img src="${productInLocalStorage[k].img}" alt=""${productInLocalStorage[k].altTxt}">
-          </div>
-          <div class="cart__item__content">
-            <div class="cart__item__content__description">
-                <h2>${productInLocalStorage[k].title}</h2>
-                <p>${productInLocalStorage[k].color}</p>
-                <p>${productInLocalStorage[k].price} €</p>
-            </div>
-            <div class="cart__item__content__settings">
-              <div class="cart__item__content__settings__quantity">
-                  <p>${productInLocalStorage[k].quantity} : </p>
-                 <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${productInLocalStorage[k].price}">&euro;
-                    </div> 
-              <div class="cart__item__content__settings__delete">
-                  <p class="deleteItem">Supprimer</p>
-              </div>
-            </div>
-          </div>
-        </article>
+                </div>
+            <div class="cart__item__content">
+                <div class="cart__item__content__description">
+                    <h2>${productInLocalStorage[k].title}</h2>
+                    <p>${productInLocalStorage[k].colors}</p>
+                    <p>${productInLocalStorage[k].price}</p>
+                </div>
+                <div class="cart__item__content__settings">
+                    <div class="cart__item__content__settings__quantity">
+                        <p>${productInLocalStorage[k].quantity}</p>
+                        <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${productInLocalStorage[k].price}">&euro;
+                    </div>
+                        <div class="cart__item__content__settings__delete">
+                            <p class="deleteItem">Supprimer</p>
+                        </div>
+                    </div>
+                </div>
+              </article>
 `;
-  }
+    }
 
-  if (k === productInLocalStorage.length) {
-    //Injecter html dans la page cart (panier)
-    cartsPosition.innerHTML = detailsCarts;
-  }
-}
+    if (k === productInLocalStorage.length) {
+        //Injecter html dans la page cart (panier)
+        cartsPosition.innerHTML = detailsCarts;
+
+    }
+}           
 
 
 
 //Gestion des articles supprimes
 let btnDelete = document.querySelectorAll(".deleteItem");
 
-    for (let d = 0; d < btnDelete.length; d++) {
-        btnDelete[d].addEventListener("click", (event) => {
-            event.preventDefault();
+for (let d = 0; d < btnDelete.length; d++) {
+    btnDelete[d].addEventListener("click", (event) => {
+        event.preventDefault();
 
         //Selectionner (l'id) et (la couleur) de l'element a supprimer
         let idDelete = productInLocalStorage[d].id;
@@ -92,7 +97,8 @@ let btnDelete = document.querySelectorAll(".deleteItem");
         alert("Article supprime");
         location.reload();
     });
-    };
+}
+
 
 
 //Gestion du total des quantités
@@ -125,34 +131,32 @@ quantities.innerHTML = quantityProduct;
 
 //Gestion de la modification du produit
 let oneModification = document.querySelectorAll(".itemQuantity");
-        console.log("Liste de neuds avec tout les input de quantité",oneModification);
+console.log(oneModification);
 
-    for (let m = 0; m < oneModification.length; m++) {
-        oneModification[m].addEventListener("change", (event) => {
-            event.preventDefault();
+for (let m = 0; m < oneModification.length; m++) {
+    oneModification[m].addEventListener("click", (event) => {
+        event.preventDefault();
 
         //Selection de l'element à modifier en fonction de son id ET sa couleur
-        let quantityChange = productInLocalStorage[m].quantity;
-        console.log("quantité à modifier", quantityChange);
+        let quantityChange = productInLocalStorage[m].quantityProduct;
         let quantityChangeValue = oneModification[m].valueAsNumber;
 
-        const resultFind = productInLocalStorage.find(
-          (el) => el.quantityChangeValue !== quantityChange
-        );
+        const resultFind = produitLocalStorage.find((el) =>
+            el.quantityChangeValue !== quantityChange);
 
-        resultFind.quantity = quantityChangeValue;
-        productInLocalStorage[m].quantity = resultFind.quantity;
+        resultFind.quantityProduct = quantityChangeValue;
+        productInLocalStorage[m].quantityProduct = resultFind.quantityProduct;
 
-        localStorage.setItem("product", JSON.stringify(productInLocalStorage));
+        localStorage.setItem("produit", JSON.stringify(productInLocalStorage));
+
         // refresh rapide
         location.reload();
-      });
-    }
-
-
+    })
+}
 
 
 //------------Gestion du formulaire
+
 const orders = document.querySelector("#order");
 console.log(orders);
 
@@ -179,6 +183,7 @@ orders.addEventListener("click", (e) => {
 
 
 
+    //----------Gestion du formulaire
     //Expression régulière
     const regExfirstNamelastNamecity = (value) => {
         return /^([A-Za-z]{3,20})?([-]{0,1})?([A-Za-z]{3,20})$/.test(value);
@@ -192,8 +197,6 @@ orders.addEventListener("click", (e) => {
         return /^[A-Za-z0-9\s]{1,50}$/.test(value);
     }
 
-
-    //Alert pour le remplissage des champs du formulaire  
     const alertFalse = (value) => {
         return `${value}: Veuillez renseigner ce champ`;
     }
@@ -218,7 +221,6 @@ orders.addEventListener("click", (e) => {
         if (regExfirstNamelastNamecity(validlastName)) {
             firstNameErrorMsg.innerHTML = '';
             return true;
-        
         } else {
             firstNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
             alert(alertFalse("lastName"));
@@ -232,7 +234,6 @@ orders.addEventListener("click", (e) => {
         if (regExaddress(validaddress)) {
             firstNameErrorMsg.innerHTML = '';
             return true;
-        
         } else {
             firstNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
             alert(alertFalse("address"));
@@ -246,7 +247,6 @@ orders.addEventListener("click", (e) => {
         if (regExfirstNamelastNamecity(validcity)) {
             firstNameErrorMsg.innerHTML = '';
             return true;
-      
         } else {
             firstNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
             alert(alertFalse("city"));
@@ -260,7 +260,6 @@ orders.addEventListener("click", (e) => {
         if (regEemailail(validemail)) {
             firstNameErrorMsg.innerHTML = '';
             return true;
-       
         } else {
             firstNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
             alert(alertFalse("email"));
@@ -275,11 +274,10 @@ orders.addEventListener("click", (e) => {
 
     } else {
       alert("Veuillez renseigner ce champ");
-         return false;
-            }
+    return false;
+    }
 
-    
-     //Mettre les valeurs du formulaire et les produits choisi ds un objet a envoyer vers le serveur
+    //Mettre les valeurs du formulaire et les produits choisi ds un objet a envoyer vers le serveur
     const sendValueAndProducts = {
         products,
         contact,
@@ -314,11 +312,8 @@ orders.addEventListener("click", (e) => {
            alert(`err`); 
         }
                console.log(responsePost);
-
-
      
  });
-
 
 });
 
@@ -345,24 +340,6 @@ const objetData = JSON.parse(dataLocalStorage);
     document.querySelector(`#email`).value = objetData.email;
 
  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
