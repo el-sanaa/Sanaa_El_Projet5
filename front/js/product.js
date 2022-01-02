@@ -1,4 +1,6 @@
-﻿//router.get('/:id', productCtrl.getOneProduct);
+﻿
+console.log("test");
+//router.get('/:id', productCtrl.getOneProduct);
 //methode window.location.search
 const getInformation = window.location.search;
 console.log(getInformation);
@@ -10,68 +12,63 @@ console.log(kanapId);
 const id = kanapId.get("id");
 console.log(id);
 
-
 //afficher les d�tails de l'id du produit 
 let fetchId = fetch(`http://localhost:3000/api/products/${id}`)
     .then((res) => res.json())
     .then((promise) => {
      selectedElements = promise;
         console.log(selectedElements);
-               
-  
-let productName = document.getElementById("title");
-        document.getElementById("title").innerHTML = `
+
+
+         document.getElementById("title").innerHTML = `
          ${selectedElements.name}`
 
-let productPrice = document.getElementById("price");
-document.getElementById("price").innerHTML = `
-    ${selectedElements.price}`
+         document.getElementById("price").innerHTML = `
+         ${selectedElements.price}`
 
-let productDescription = document.getElementById("description");
-document.getElementById("description").innerHTML = `
-    ${selectedElements.description}`
+         document.getElementById("description").innerHTML = `
+         ${selectedElements.description}`
 
-const item__img = document.getElementById("img").innerHTML = `
-    <img src="${selectedElements.imageUrl}"
-        alt="${selectedElements.altTxt}">`;
-        console.log(item__img);
+        const item__img = document.getElementById("img").innerHTML = `
+            <img src="${selectedElements.imageUrl}"
+                alt="${selectedElements.altTxt}">`;
+                console.log(item__img);
 
-const colors = document.getElementById("colors");
-        console.log(colors);
-        console.log(selectedElements.colors);
+        const colors = document.getElementById("colors");
+                console.log(colors);
+                console.log(selectedElements.colors);
 
-    // Boucle for qui affiche toutes les options des couleurs
-    for (let i = 0; i < selectedElements.colors.length; i++) {
-        console.log(selectedElements.colors[i]);
-        colors.innerHTML += `
-        <option value = ${selectedElements.colors[i]}>
-        ${selectedElements.colors[i]}</option>`;
-    };
+        // Boucle for qui affiche toutes les options des couleurs
+        for (let i = 0; i < selectedElements.colors.length; i++) {
+            console.log(selectedElements.colors[i]);
+            colors.innerHTML += `
+            <option value = ${selectedElements.colors[i]}>
+            ${selectedElements.colors[i]}</option>`;
+        };
 
-let quantity = document.getElementById("quantity");
+        let quantity = document.getElementById("quantity");
         console.log(quantity);
 
-let color=document.getElementById("colors");
+        let color = document.getElementById("colors");
 
 
-const button = document.getElementById("addToCart");
-        console.log(button);
+        const button = document.getElementById("addToCart");
+                console.log(button);
 
+                        
         //Ecouter l'event
         button.addEventListener("click", (e) => {
-            event.preventDefault();
+            e.preventDefault();
                 console.log(button);
 
         let numberQuantity = parseInt(quantity.value)
-        
-        //Alert pour indiquer de remplir le champ quantité
         if(numberQuantity<=0){
             alert("Veuillez SVP saisir un nombre d'article entre 1..100");
-        
-        //Alert pour indiquer de remplir le champ couleur    
+       
         }else if(color.value==""){
-            alert("Veuillez SVP choisir une couleur  ");
+            alert("Veuillez SVP choisir une couleur");
         }
+
         else{
 
         console.log("numberQuantity");
@@ -91,7 +88,8 @@ const button = document.getElementById("addToCart");
         
 
 
-//Gestion du LocaleStorage--------------
+
+    //-------------Gestion du LocaleStorage
 //Stocker les valeurs dans le local storage
 //convertir donn�es json (dans lecalstorage) en objet js
 let productInLocalStorage = JSON.parse(localStorage.getItem("product"));
@@ -125,20 +123,16 @@ if (productInLocalStorage) {
 else {
     //Si il n'y pas de produit enregistr� dan le Locale storage
     productInLocalStorage = [];
-
-    //Ajouter le produit choisi dans localstorage
     productInLocalStorage.push(optionsProduct);
-
-    //Ajouter les options et choix du client //Transformer en format JSON
     localStorage.setItem("product", JSON.stringify(productInLocalStorage));
     
         console.log(productInLocalStorage);
         confirmation();
     }
 
-          
-    }
- })
-})   
+    
 
 
+                     }
+                })
+            })

@@ -1,8 +1,7 @@
-
 //Mettre dans variable keys et values qui sont dans le localstorage
 //Convertir données JSON du localstorage en format js
 
-let products = JSON.parse(localStorage.getItem("product"));
+let products =JSON.parse(localStorage.getItem("product"));
 console.log(products);
 
 let productInLocalStorage = JSON.parse(localStorage.getItem("product"));
@@ -11,20 +10,20 @@ console.log(productInLocalStorage);
 //Afficher produits du panier 
 //Injecter HTML
 const cartsPosition = document.querySelector("#cart__items");
-console.log("testcartsPosition")
 console.log(cartsPosition);
-
 
 let detailsCarts = [];
 
 //Si le panier est vide afficher vide
 if (productInLocalStorage === null || productInLocalStorage == 0) {
-       const emptyCart =  '<p>Panier est vide</p>';
+    const emptyCart =
+        '<p>Panier est vide</p>';
+
     cartsPosition.innerHTML = emptyCart;
 
 } else {
-     //boucle for pour tous les produits stockés
-    //Boucle for Si les produits sont les memes additionner les sommes 
+    // sinon afficher produits dans le localstorage
+    //boucle for
     for(k=0;k<productInLocalStorage.length-1;k++){
         for(let j=k+1;j<productInLocalStorage.length;j++){
             if( productInLocalStorage[k].id==productInLocalStorage[j].id){
@@ -70,8 +69,7 @@ if (productInLocalStorage === null || productInLocalStorage == 0) {
 
     }
 }           
-
-
+   
 
 //Gestion des articles supprimes
 let btnDelete = document.querySelectorAll(".deleteItem");
@@ -97,14 +95,13 @@ for (let d = 0; d < btnDelete.length; d++) {
 }
 
 
-
-//Gestion du total des quantités
+// Récupération du total des quantités
 let itemsPrice = document.getElementsByClassName('itemQuantity');
 console.log(itemsPrice);
 
 let myLength = itemsPrice.length,
-
 allPrice = 0;
+
 for (let i = 0; i < myLength; ++i) {
     allPrice += itemsPrice[i].valueAsNumber;
 }
@@ -115,7 +112,6 @@ for (let i = 0; i < myLength; ++i) {
 
 //Gestion de la quantite de produit
 let totalsQuantity = [];
-
 let quantityProduct=0;
 for (let q = 0; q < productInLocalStorage.length; q++) {
      quantityProduct +=parseInt(productInLocalStorage[q].quantity);
@@ -149,7 +145,8 @@ for (let m = 0; m < oneModification.length; m++) {
         // refresh rapide
         location.reload();
     })
-}
+}    
+
 
 
 //------------Gestion du formulaire
@@ -178,138 +175,144 @@ orders.addEventListener("click", (e) => {
     console.log(contact);
 
 
+//Expression régulière
+const regExfirstNamelastNamecity = (value) => {
+    return /^([A-Za-z]{3,20})?([-]{0,1})?([A-Za-z]{3,20})$/.test(value);
+}
 
-    //Expression régulière
-    const regExfirstNamelastNamecity = (value) => {
-        return /^([A-Za-z]{3,20})?([-]{0,1})?([A-Za-z]{3,20})$/.test(value);
-    }
+const regEemailail = (value) => {
+    return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value);
+ }
 
-   const regEemailail = (value) => {
-       return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value);
-    }
+ const regExaddress = (value) => {
+     return /^[A-Za-z0-9\s]{1,50}$/.test(value);
+ }
 
-    const regExaddress = (value) => {
-        return /^[A-Za-z0-9\s]{1,50}$/.test(value);
-    }
 
-    const alertFalse = (value) => {
-        return `${value}: Veuillez renseigner ce champ`;
-    }
+//Alert pour le remplisage des champs du formulaire
+const alertFalse = (value) => {
+    return `${value}: Veuillez renseigner ce champ`;
+}
 
-    function firstNameControl() {
-        //controler de la validité du prenom
-        const validfirstName = contact.firstName;
-        if (regExfirstNamelastNamecity(validfirstName)) {
-            firstNameErrorMsg.innerHTML = '';
-            return true;
 
-        } else {
-            firstNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
-            alert(alertFalse("firstName"));
-            return false;
-        }
-    }
-
-    function lastNameControl() {
-        //controler la validite du nom
-        const validlastName = contact.lastName;
-        if (regExfirstNamelastNamecity(validlastName)) {
-            firstNameErrorMsg.innerHTML = '';
-            return true;
-        } else {
-            firstNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
-            alert(alertFalse("lastName"));
-            return false;
-        }
-    }
-
-    function addressControl() {
-        //controler  la validite de l'adresse
-        const validaddress = contact.address
-        if (regExaddress(validaddress)) {
-            firstNameErrorMsg.innerHTML = '';
-            return true;
-        } else {
-            firstNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
-            alert(alertFalse("address"));
-            return false;
-        }
-    };
-
-    function cityControl() {
-        //controler la validite de la ville
-        const validcity = contact.city
-        if (regExfirstNamelastNamecity(validcity)) {
-            firstNameErrorMsg.innerHTML = '';
-            return true;
-        } else {
-            firstNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
-            alert(alertFalse("city"));
-            return false;
-        }
-    };
-
-    function emailControl() {
-        //controler la validite de l'email
-        const validemail = contact.email
-        if (regEemailail(validemail)) {
-            firstNameErrorMsg.innerHTML = '';
-            return true;
-        } else {
-            firstNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
-            alert(alertFalse("email"));
-            return false;
-        }
-    };
-    
-
-   if (firstNameControl() && lastNameControl() && addressControl() && cityControl() && emailControl()) {
-        //Mettre l'objet contact dans le local storage
-        localStorage.setItem("contact", JSON.stringify(contact));
+//controler de la validité du prenom
+function firstNameControl() {
+    const validfirstName = contact.firstName;
+    if (regExfirstNamelastNamecity(validfirstName)) {
+        firstNameErrorMsg.innerHTML = '';
+        return true;
 
     } else {
-      alert("Veuillez renseigner ce champ");
-    return false;
+        firstNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
+        alert(alertFalse("Prenom"));
+        return false;
     }
+}
 
-    //Mettre les valeurs du formulaire et les produits choisi ds un objet a envoyer vers le serveur
-    const sendValueAndProducts = {
-        products,
-        contact,
-    };
-    console.log(sendValueAndProducts);
+//controler la validité du nom
+function lastNameControl() {
+    const validlastName = contact.lastName;
+    if (regExfirstNamelastNamecity(validlastName)) {
+        lastNameErrorMsg.innerHTML = '';
+        return true;
+    } else {
+        lastNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
+        alert(alertFalse("Nom"));
+        return false;
+    }
+}
 
-    
-    //Envoyer l'objet sendValueAndProducts vers le serveur
-        const responsePost = fetch(`http://localhost:3000/api/products/order`, {
-        method: "POST",
-        body: JSON.stringify(sendValueAndProducts),
-        headers: {
+//controler  la validité de l'adresse
+function addressControl() {
+    const validaddress = contact.address
+    if (regExaddress(validaddress)) {
+        addressErrorMsg.innerHTML = '';
+        return true;
+    } else {
+        addressErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
+        alert(alertFalse("Adresse"));
+        return false;
+    }
+};
 
-            'Accept': "application/json",
-            "Content-Type": "application/json",
+//controler la validité de la ville
+function cityControl() {
+    const validcity = contact.city
+    if (regExfirstNamelastNamecity(validcity)) {
+        cityErrorMsg.innerHTML = '';
+        return true;
+    } else {
+        cityErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
+        alert(alertFalse("Ville"));
+        return false;
+    }
+};
 
-        },
+//Controler la validité de l'email
+function emailControl() {
+    const validemail = contact.email
+    if (regEemailail(validemail)) {
+        emailErrorMsg.innerHTML = '';
+        return true;
+    } else {
+        emailErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
+        alert(alertFalse("email"));
+        return false;
+    }
+};
 
-    });
 
-     //Voir le resultat du serveur dans la console 
-     responsePost.then(async (response) => {
-        try {
-            const contenu = await response.json();
-            console.log("contenus");
-            console.log(contenu);
-                localStorage.clear();
-                localStorage.setItem("contenuId", contenu.orderId);
-                document.location.href = "confirmation.html";
+if (firstNameControl() && lastNameControl() && addressControl() && cityControl() && emailControl()) {
+    //Mettre l'objet contact dans le local storage
+    localStorage.setItem("contact", JSON.stringify(contact));
 
-        }
-        catch (err) {
-           alert(`err`); 
-        }
-               console.log(responsePost);
-     
- });
+} else {
+  alert("Veuillez renseigner ce champ");
+return false;
+}
+
+
+//Mettre les valeurs du formulaire et les produits choisi ds un objet a envoyer vers le serveur
+const sendValueAndProducts = {
+    products,
+    contact,
+};
+console.log(sendValueAndProducts);
+
+
+//Envoyer l'objet sendValueAndProducts vers le serveur
+const responsePost = fetch(`http://localhost:3000/api/products/order`, {
+    method: "POST",
+    body: JSON.stringify(sendValueAndProducts),
+    headers: {
+
+        'Accept': "application/json",
+        "Content-Type": "application/json",
+
+    },
+
+});
+
+//Voir le resultat du serveur dans la console 
+responsePost.then(async (response) => {
+   try {
+       const contenu = await response.json();
+       console.log("contenus");
+       console.log(contenu);
+           localStorage.clear();
+           localStorage.setItem("contenuId", contenu.orderId);
+           document.location.href = "confirmation.html";
+
+   }
+   catch (err) {
+      alert(`err`); 
+   }
+          console.log(responsePost);
+
+
+
+});
+
 
 });
 
@@ -325,19 +328,15 @@ const dataLocalStorage = localStorage.getItem("contact");
 const objetData = JSON.parse(dataLocalStorage);
 //console.log(objetData);
 
- if (objetData => null) {
-        console.log("null");
- } else {
+if (objetData => null) {
+   console.log("null");
+} else {
 
-    document.querySelector(`#firstName`).value = objetData.firstName;
-    document.querySelector(`#lastName`).value = objetData.lastName;
-    document.querySelector(`#address`).value = objetData.address;
-    document.querySelector(`#city`).value = objetData.city;
-    document.querySelector(`#email`).value = objetData.email;
+document.querySelector(`#firstName`).value = objetData.firstName;
+document.querySelector(`#lastName`).value = objetData.lastName;
+document.querySelector(`#address`).value = objetData.address;
+document.querySelector(`#city`).value = objetData.city;
+document.querySelector(`#email`).value = objetData.email;
 
- }
-
-
-
-
+}
 

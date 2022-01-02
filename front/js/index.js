@@ -1,4 +1,3 @@
-
 let productsData = []
 
 const fetchProducts = async () => {
@@ -10,18 +9,17 @@ const fetchProducts = async () => {
         });
 };
 
-// injecter html et faire une boucle
-// methode map
+// injecter html et faire une boucle/ methode map
+ //Chercher un seul produit
  const productsDisplay = async () => {
     await fetchProducts();
 
     document.getElementById("items").innerHTML = productsData.map(
         (products) => `
-       
-     
+           
      <a href="./product.html?id=${products._id}">
      <article>  
-             <img src="${products.imageUrl}" alt="image du canapé 1 ${products.name}" />
+             <img src="${products.imageUrl}" alt="image du canapï¿½ 1 ${products.name}" />
              <h3 class="productName">${products.name}</h3>
              <p class="productDescription">${products.description}</P>
      
@@ -35,5 +33,3 @@ const fetchProducts = async () => {
 };
 
 productsDisplay();
-
-
