@@ -16,25 +16,25 @@ let detailsCarts = [];
 
 //Si le panier est vide afficher vide
 if (productInLocalStorage === null || productInLocalStorage == 0) {
-    const emptyCart =
-        '<p>Panier est vide</p>';
-
+    
+    const emptyCart = '<p>Panier est vide</p>';
     cartsPosition.innerHTML = emptyCart;
 
 } else {
-    // sinon afficher produits dans le localstorage
-    //boucle for
+   //Boucle for pour les produits stockés ds le localstorage
+   // boucle for pour additionner l'ensemble des sommes des produits similaires
     for(k=0;k<productInLocalStorage.length-1;k++){
-        for(let j=k+1;j<productInLocalStorage.length;j++){
+    for(let j=k+1;j<productInLocalStorage.length;j++){
             if( productInLocalStorage[k].id==productInLocalStorage[j].id){
-                productInLocalStorage[k].quantity=parseInt(productInLocalStorage[j].quantity)+parseInt(productInLocalStorage[k].quantity);
-               productInLocalStorage[k].price=parseInt(productInLocalStorage[k].price)+parseInt(productInLocalStorage[j].price);
-            productInLocalStorage.splice(j,1);
+              productInLocalStorage[k].quantity=parseInt(productInLocalStorage[j].quantity)+parseInt(productInLocalStorage[k].quantity);
+              productInLocalStorage[k].price=parseInt(productInLocalStorage[k].price)+parseInt(productInLocalStorage[j].price);
+              productInLocalStorage.splice(j,1);
+                }
             }
-        }
-    }
+           }
  
-
+    //injecter html
+    //Boucle for
     for (k = 0; k < productInLocalStorage.length; k++) {
         console.log(productInLocalStorage.length);
 
@@ -95,16 +95,19 @@ for (let d = 0; d < btnDelete.length; d++) {
 }
 
 
-// Récupération du total des quantités
+//Gestion du total des quantités
 let itemsPrice = document.getElementsByClassName('itemQuantity');
 console.log(itemsPrice);
 
 let myLength = itemsPrice.length,
-allPrice = 0;
 
+//Fixer le prix total à 0 avant le calcul
+allPrice = 0;
+//Boucle for pour parcourir les produit stockés ds ls pour calculer le prix  
 for (let i = 0; i < myLength; ++i) {
     allPrice += itemsPrice[i].valueAsNumber;
 }
+    //Injecter la somme du panier dans le DOM
     let priceOfProduct = document.getElementById('totalPrice');
     priceOfProduct.innerHTML = allPrice;
     console.log(allPrice);
@@ -112,11 +115,13 @@ for (let i = 0; i < myLength; ++i) {
 
 //Gestion de la quantite de produit
 let totalsQuantity = [];
-let quantityProduct=0;
+
+//Fixer la quantité total à 0 avant le calcul
+let quantityProduct = 0;
 for (let q = 0; q < productInLocalStorage.length; q++) {
      quantityProduct +=parseInt(productInLocalStorage[q].quantity);
 }
-    //Mettre les prix ds la variable 
+    //Injecter la quantité totale dans le DOM 
     let quantities = document.getElementById("totalQuantity");
     quantities.innerHTML = quantityProduct;
 
@@ -299,9 +304,16 @@ responsePost.then(async (response) => {
        const contenu = await response.json();
        console.log("contenus");
        console.log(contenu);
-           localStorage.clear();
-           localStorage.setItem("contenuId", contenu.orderId);
-           document.location.href = "confirmation.html";
+
+        // on défini responseId comme la valeur de l'ID renvoyé dans la réponse
+        //let responseId = contenu.orderId;
+        //console.log("orderId récupéré", responseId);
+           
+            localStorage.clear();
+            localStorage.setItem("contenuId", contenu.orderId);
+
+                //redirection vers la page de confirmation en ajoutant l'ID dans l'url
+                document.location.href = "confirmation.html";
 
    }
    catch (err) {

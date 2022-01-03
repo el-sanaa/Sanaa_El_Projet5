@@ -1,5 +1,4 @@
 ﻿
-console.log("test");
 //router.get('/:id', productCtrl.getOneProduct);
 //methode window.location.search
 const getInformation = window.location.search;
@@ -51,17 +50,19 @@ let fetchId = fetch(`http://localhost:3000/api/products/${id}`)
 
         let color = document.getElementById("colors");
 
-
         const button = document.getElementById("addToCart");
                 console.log(button);
-
                         
         //Ecouter l'event
         button.addEventListener("click", (e) => {
+            //On bloque le compotement par féfaut
             e.preventDefault();
                 console.log(button);
 
+        //Récuperer la quantité à ajouter que l'on transforme en integer        
         let numberQuantity = parseInt(quantity.value)
+        
+        //Alert pour indiquer de saisir la quantité et la couleur
         if(numberQuantity<=0){
             alert("Veuillez SVP saisir un nombre d'article entre 1..100");
        
@@ -70,9 +71,8 @@ let fetchId = fetch(`http://localhost:3000/api/products/${id}`)
         }
 
         else{
-
-        console.log("numberQuantity");
-        console.log(numberQuantity);
+            console.log("numberQuantity");
+            console.log(numberQuantity);
 
             //R�cuperer les valeurs  / Ajouter au panier
             let optionsProduct = {
@@ -109,10 +109,8 @@ const confirmation = () => {
   
 // si il y a deja un produit enregistre dans le local storage
 if (productInLocalStorage) {
-
     //Ajouter le produit choisi dans localstorage
     productInLocalStorage.push(optionsProduct);
-
     //Ajouter les options et choix du client //Transformer en format JSON
     localStorage.setItem("product", JSON.stringify(productInLocalStorage));
    
