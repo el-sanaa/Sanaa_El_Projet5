@@ -1,4 +1,3 @@
-﻿
 //router.get('/:id', productCtrl.getOneProduct);
 //methode window.location.search
 const getInformation = window.location.search;
@@ -11,68 +10,68 @@ console.log(kanapId);
 const id = kanapId.get("id");
 console.log(id);
 
+
 //afficher les d�tails de l'id du produit 
 let fetchId = fetch(`http://localhost:3000/api/products/${id}`)
     .then((res) => res.json())
     .then((promise) => {
      selectedElements = promise;
         console.log(selectedElements);
-
-
-         document.getElementById("title").innerHTML = `
+               
+  
+let productName = document.getElementById("title");
+        document.getElementById("title").innerHTML = `
          ${selectedElements.name}`
 
-         document.getElementById("price").innerHTML = `
-         ${selectedElements.price}`
+let productPrice = document.getElementById("price");
+document.getElementById("price").innerHTML = `
+    ${selectedElements.price}`
 
-         document.getElementById("description").innerHTML = `
-         ${selectedElements.description}`
+let productDescription = document.getElementById("description");
+document.getElementById("description").innerHTML = `
+    ${selectedElements.description}`
 
-        const item__img = document.getElementById("img").innerHTML = `
-            <img src="${selectedElements.imageUrl}"
-                alt="${selectedElements.altTxt}">`;
-                console.log(item__img);
+const item__img = document.getElementById("img").innerHTML = `
+    <img src="${selectedElements.imageUrl}"
+        alt="${selectedElements.altTxt}">`;
+        console.log(item__img);
 
-        const colors = document.getElementById("colors");
-                console.log(colors);
-                console.log(selectedElements.colors);
+const colors = document.getElementById("colors");
+        console.log(colors);
+        console.log(selectedElements.colors);
 
-        // Boucle for qui affiche toutes les options des couleurs
-        for (let i = 0; i < selectedElements.colors.length; i++) {
-            console.log(selectedElements.colors[i]);
-            colors.innerHTML += `
-            <option value = ${selectedElements.colors[i]}>
-            ${selectedElements.colors[i]}</option>`;
-        };
+    // Boucle for qui affiche toutes les options des couleurs
+    for (let i = 0; i < selectedElements.colors.length; i++) {
+        console.log(selectedElements.colors[i]);
+        colors.innerHTML += `
+        <option value = ${selectedElements.colors[i]}>
+        ${selectedElements.colors[i]}</option>`;
+    };
 
-        let quantity = document.getElementById("quantity");
+let quantity = document.getElementById("quantity");
         console.log(quantity);
+let color=document.getElementById("colors");
 
-        let color = document.getElementById("colors");
 
-        const button = document.getElementById("addToCart");
-                console.log(button);
-                        
+const button = document.getElementById("addToCart");
+        console.log(button);
+
         //Ecouter l'event
         button.addEventListener("click", (e) => {
-            //On bloque le compotement par féfaut
-            e.preventDefault();
+            event.preventDefault();
                 console.log(button);
 
-        //Récuperer la quantité à ajouter que l'on transforme en integer        
         let numberQuantity = parseInt(quantity.value)
-        
-        //Alert pour indiquer de saisir la quantité et la couleur
         if(numberQuantity<=0){
+            //Alert pour remplir les champs
             alert("Veuillez SVP saisir un nombre d'article entre 1..100");
-       
         }else if(color.value==""){
-            alert("Veuillez SVP choisir une couleur");
+            alert("Veuillez SVP choisir une couleur  ");
         }
-
         else{
-            console.log("numberQuantity");
-            console.log(numberQuantity);
+
+        console.log("numberQuantity");
+        console.log(numberQuantity);
 
             //R�cuperer les valeurs  / Ajouter au panier
             let optionsProduct = {
@@ -88,8 +87,7 @@ let fetchId = fetch(`http://localhost:3000/api/products/${id}`)
         
 
 
-
-    //-------------Gestion du LocaleStorage
+//Gestion du LocaleStorage--------------
 //Stocker les valeurs dans le local storage
 //convertir donn�es json (dans lecalstorage) en objet js
 let productInLocalStorage = JSON.parse(localStorage.getItem("product"));
@@ -109,8 +107,10 @@ const confirmation = () => {
   
 // si il y a deja un produit enregistre dans le local storage
 if (productInLocalStorage) {
+
     //Ajouter le produit choisi dans localstorage
     productInLocalStorage.push(optionsProduct);
+
     //Ajouter les options et choix du client //Transformer en format JSON
     localStorage.setItem("product", JSON.stringify(productInLocalStorage));
    
@@ -130,7 +130,7 @@ else {
 
     
 
-
-                     }
-                })
-            })
+         
+    }
+ })
+})   

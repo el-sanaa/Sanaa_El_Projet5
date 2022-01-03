@@ -1,8 +1,8 @@
+
 //Mettre dans variable keys et values qui sont dans le localstorage
 //Convertir données JSON du localstorage en format js
 
 let products =JSON.parse(localStorage.getItem("product"));
-console.log(products);
 
 let productInLocalStorage = JSON.parse(localStorage.getItem("product"));
 console.log(productInLocalStorage);
@@ -12,28 +12,30 @@ console.log(productInLocalStorage);
 const cartsPosition = document.querySelector("#cart__items");
 console.log(cartsPosition);
 
+
 let detailsCarts = [];
 
 //Si le panier est vide afficher vide
 if (productInLocalStorage === null || productInLocalStorage == 0) {
-    
-    const emptyCart = '<p>Panier est vide</p>';
+    const emptyCart =
+        '<p>Panier est vide</p>';
+
     cartsPosition.innerHTML = emptyCart;
 
 } else {
-   //Boucle for pour les produits stockés ds le localstorage
-   // boucle for pour additionner l'ensemble des sommes des produits similaires
+    //Boucle for pour les tous les produit stockés ds le localstorage
+    //boucle for pour additionner la somme totale des quantités
     for(k=0;k<productInLocalStorage.length-1;k++){
-    for(let j=k+1;j<productInLocalStorage.length;j++){
+        for(let j=k+1;j<productInLocalStorage.length;j++){
             if( productInLocalStorage[k].id==productInLocalStorage[j].id){
-              productInLocalStorage[k].quantity=parseInt(productInLocalStorage[j].quantity)+parseInt(productInLocalStorage[k].quantity);
-              productInLocalStorage[k].price=parseInt(productInLocalStorage[k].price)+parseInt(productInLocalStorage[j].price);
-              productInLocalStorage.splice(j,1);
-                }
+                productInLocalStorage[k].quantity=parseInt(productInLocalStorage[j].quantity)+parseInt(productInLocalStorage[k].quantity);
+               productInLocalStorage[k].price=parseInt(productInLocalStorage[k].price)+parseInt(productInLocalStorage[j].price);
+            productInLocalStorage.splice(j,1);
             }
-           }
+        }
+    }
  
-    //injecter html
+    //Injecter HTML
     //Boucle for
     for (k = 0; k < productInLocalStorage.length; k++) {
         console.log(productInLocalStorage.length);
@@ -69,7 +71,8 @@ if (productInLocalStorage === null || productInLocalStorage == 0) {
 
     }
 }           
-   
+
+
 
 //Gestion des articles supprimes
 let btnDelete = document.querySelectorAll(".deleteItem");
@@ -95,15 +98,15 @@ for (let d = 0; d < btnDelete.length; d++) {
 }
 
 
+
 //Gestion du total des quantités
 let itemsPrice = document.getElementsByClassName('itemQuantity');
 console.log(itemsPrice);
 
 let myLength = itemsPrice.length,
-
 //Fixer le prix total à 0 avant le calcul
 allPrice = 0;
-//Boucle for pour parcourir les produit stockés ds ls pour calculer le prix  
+
 for (let i = 0; i < myLength; ++i) {
     allPrice += itemsPrice[i].valueAsNumber;
 }
@@ -115,13 +118,12 @@ for (let i = 0; i < myLength; ++i) {
 
 //Gestion de la quantite de produit
 let totalsQuantity = [];
-
-//Fixer la quantité total à 0 avant le calcul
-let quantityProduct = 0;
+let quantityProduct=0;
 for (let q = 0; q < productInLocalStorage.length; q++) {
      quantityProduct +=parseInt(productInLocalStorage[q].quantity);
+  
 }
-    //Injecter la quantité totale dans le DOM 
+    //Mettre les prix ds la variable 
     let quantities = document.getElementById("totalQuantity");
     quantities.innerHTML = quantityProduct;
 
@@ -150,8 +152,7 @@ for (let m = 0; m < oneModification.length; m++) {
         // refresh rapide
         location.reload();
     })
-}    
-
+}
 
 
 //------------Gestion du formulaire
@@ -180,150 +181,142 @@ orders.addEventListener("click", (e) => {
     console.log(contact);
 
 
-//Expression régulière
-const regExfirstNamelastNamecity = (value) => {
-    return /^([A-Za-z]{3,20})?([-]{0,1})?([A-Za-z]{3,20})$/.test(value);
-}
 
-const regEemailail = (value) => {
-    return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value);
- }
+    //Expression régulière
+    const regExfirstNamelastNamecity = (value) => {
+        return /^([A-Za-z]{3,20})?([-]{0,1})?([A-Za-z]{3,20})$/.test(value);
+    }
 
- const regExaddress = (value) => {
-     return /^[A-Za-z0-9\s]{1,50}$/.test(value);
- }
+   const regEemailail = (value) => {
+       return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value);
+    }
 
+    const regExaddress = (value) => {
+        return /^[A-Za-z0-9\s]{1,50}$/.test(value);
+    }
 
-//Alert pour le remplisage des champs du formulaire
-const alertFalse = (value) => {
-    return `${value}: Veuillez renseigner ce champ`;
-}
+    //Alert pour le remplissage des champs du formulaire 
+    const alertFalse = (value) => {
+        return `${value}: Veuillez renseigner ce champ`;
+    }
 
+    //controler de la validité du prenom
+    function firstNameControl() {
+        const validfirstName = contact.firstName;
+        if (regExfirstNamelastNamecity(validfirstName)) {
+            firstNameErrorMsg.innerHTML = '';
+            return true;
 
-//controler de la validité du prenom
-function firstNameControl() {
-    const validfirstName = contact.firstName;
-    if (regExfirstNamelastNamecity(validfirstName)) {
-        firstNameErrorMsg.innerHTML = '';
-        return true;
+        } else {
+            firstNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
+            alert(alertFalse("Prenom"));
+            return false;
+        }
+    }
+
+    //controler la validité du nom
+    function lastNameControl() {
+        const validlastName = contact.lastName;
+        if (regExfirstNamelastNamecity(validlastName)) {
+            lastNameErrorMsg.innerHTML = '';
+            return true;
+        } else {
+            lastNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
+            alert(alertFalse("Nom"));
+            return false;
+        }
+    }
+
+    //controler  la validité de l'adresse
+    function addressControl() {
+        const validaddress = contact.address
+        if (regExaddress(validaddress)) {
+            addressErrorMsg.innerHTML = '';
+            return true;
+        } else {
+            addressErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
+            alert(alertFalse("Adresse"));
+            return false;
+        }
+    };
+
+    //Controler la validité de la ville
+    function cityControl() {
+        const validcity = contact.city
+        if (regExfirstNamelastNamecity(validcity)) {
+            cityErrorMsg.innerHTML = '';
+            return true;
+        } else {
+            cityErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
+            alert(alertFalse("Ville"));
+            return false;
+        }
+    };
+
+    //controler la validité de l'email
+    function emailControl() {
+        const validemail = contact.email
+        if (regEemailail(validemail)) {
+            emailErrorMsg.innerHTML = '';
+            return true;
+        } else {
+            emailErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
+            alert(alertFalse("Email"));
+            return false;
+        }
+    };
+    
+
+   if (firstNameControl() && lastNameControl() && addressControl() && cityControl() && emailControl()) {
+        //Mettre l'objet contact dans le local storage
+        localStorage.setItem("contact", JSON.stringify(contact));
 
     } else {
-        firstNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
-        alert(alertFalse("Prenom"));
-        return false;
+      alert("Veuillez renseigner ce champ");
+    return false;
     }
-}
 
-//controler la validité du nom
-function lastNameControl() {
-    const validlastName = contact.lastName;
-    if (regExfirstNamelastNamecity(validlastName)) {
-        lastNameErrorMsg.innerHTML = '';
-        return true;
-    } else {
-        lastNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
-        alert(alertFalse("Nom"));
-        return false;
-    }
-}
+    //Mettre les valeurs du formulaire et les produits choisi ds un objet a envoyer vers le serveur
+    const sendValueAndProducts = {
+        products,
+        contact,
+    };
+    console.log(sendValueAndProducts);
 
-//controler  la validité de l'adresse
-function addressControl() {
-    const validaddress = contact.address
-    if (regExaddress(validaddress)) {
-        addressErrorMsg.innerHTML = '';
-        return true;
-    } else {
-        addressErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
-        alert(alertFalse("Adresse"));
-        return false;
-    }
-};
+    //Envoyer l'objet sendValueAndProducts vers le serveur
+        const responsePost = fetch(`http://localhost:3000/api/products/order`, {
+        method: "POST",
+        body: JSON.stringify(sendValueAndProducts),
+        headers: {
 
-//controler la validité de la ville
-function cityControl() {
-    const validcity = contact.city
-    if (regExfirstNamelastNamecity(validcity)) {
-        cityErrorMsg.innerHTML = '';
-        return true;
-    } else {
-        cityErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
-        alert(alertFalse("Ville"));
-        return false;
-    }
-};
+            'Accept': "application/json",
+            "Content-Type": "application/json",
 
-//Controler la validité de l'email
-function emailControl() {
-    const validemail = contact.email
-    if (regEemailail(validemail)) {
-        emailErrorMsg.innerHTML = '';
-        return true;
-    } else {
-        emailErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
-        alert(alertFalse("email"));
-        return false;
-    }
-};
+        },
 
+    });
 
-if (firstNameControl() && lastNameControl() && addressControl() && cityControl() && emailControl()) {
-    //Mettre l'objet contact dans le local storage
-    localStorage.setItem("contact", JSON.stringify(contact));
+     //Voir le resultat du serveur dans la console 
+     responsePost.then(async (response) => {
+        try {
+            const contenu = await response.json();
+            console.log("contenus");
+            console.log(contenu);
+                localStorage.clear();
+                localStorage.setItem("contenuId", contenu.orderId);
 
-} else {
-  alert("Veuillez renseigner ce champ");
-return false;
-}
-
-
-//Mettre les valeurs du formulaire et les produits choisi ds un objet a envoyer vers le serveur
-const sendValueAndProducts = {
-    products,
-    contact,
-};
-console.log(sendValueAndProducts);
-
-
-//Envoyer l'objet sendValueAndProducts vers le serveur
-const responsePost = fetch(`http://localhost:3000/api/products/order`, {
-    method: "POST",
-    body: JSON.stringify(sendValueAndProducts),
-    headers: {
-
-        'Accept': "application/json",
-        "Content-Type": "application/json",
-
-    },
-
-});
-
-//Voir le resultat du serveur dans la console 
-responsePost.then(async (response) => {
-   try {
-       const contenu = await response.json();
-       console.log("contenus");
-       console.log(contenu);
-
-        // on défini responseId comme la valeur de l'ID renvoyé dans la réponse
-        //let responseId = contenu.orderId;
-        //console.log("orderId récupéré", responseId);
-           
-            localStorage.clear();
-            localStorage.setItem("contenuId", contenu.orderId);
-
-                //redirection vers la page de confirmation en ajoutant l'ID dans l'url
+                // redirection vers la page de confirmation
                 document.location.href = "confirmation.html";
 
-   }
-   catch (err) {
-      alert(`err`); 
-   }
-          console.log(responsePost);
+        }
+        catch (err) {
+           alert(`err`); 
+        }
+               console.log(responsePost);
 
 
-
-});
+     
+ });
 
 
 });
@@ -340,15 +333,41 @@ const dataLocalStorage = localStorage.getItem("contact");
 const objetData = JSON.parse(dataLocalStorage);
 //console.log(objetData);
 
-if (objetData => null) {
-   console.log("null");
-} else {
+ if (objetData => null) {
+        console.log("null");
+ } else {
 
-document.querySelector(`#firstName`).value = objetData.firstName;
-document.querySelector(`#lastName`).value = objetData.lastName;
-document.querySelector(`#address`).value = objetData.address;
-document.querySelector(`#city`).value = objetData.city;
-document.querySelector(`#email`).value = objetData.email;
+    document.querySelector(`#firstName`).value = objetData.firstName;
+    document.querySelector(`#lastName`).value = objetData.lastName;
+    document.querySelector(`#address`).value = objetData.address;
+    document.querySelector(`#city`).value = objetData.city;
+    document.querySelector(`#email`).value = objetData.email;
 
-}
+ }
+
+
+
+
+
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
