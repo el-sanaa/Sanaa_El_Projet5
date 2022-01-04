@@ -10,15 +10,15 @@ console.log(kanapId);
 const id = kanapId.get("id");
 console.log(id);
 
-
-//afficher les d�tails de l'id du produit 
+//Interroger l’API pour récupérer les détails du produit
+//Récupérer un seul et unique produit
 let fetchId = fetch(`http://localhost:3000/api/products/${id}`)
     .then((res) => res.json())
     .then((promise) => {
      selectedElements = promise;
         console.log(selectedElements);
                
-  
+//Insérer ces détails dans la page Produit (dans le DOM)  
 let productName = document.getElementById("title");
         document.getElementById("title").innerHTML = `
          ${selectedElements.name}`
@@ -73,7 +73,7 @@ const button = document.getElementById("addToCart");
         console.log("numberQuantity");
         console.log(numberQuantity);
 
-            //R�cuperer les valeurs  / Ajouter au panier
+            //Récuperer les valeurs  / Ajouter au panier
             let optionsProduct = {
                 title: selectedElements.name,
                 img: selectedElements.imageUrl,
@@ -89,23 +89,23 @@ const button = document.getElementById("addToCart");
 
 //Gestion du LocaleStorage--------------
 //Stocker les valeurs dans le local storage
-//convertir donn�es json (dans lecalstorage) en objet js
+//convertir les données json (dans lecalstorage) en objet js
 let productInLocalStorage = JSON.parse(localStorage.getItem("product"));
     console.log(productInLocalStorage);
 
-//Function pour une fen�tre pop-up
+//Function pour une fenetre pop-up
 //Methode window.confirm
 const confirmation = () => {
-    if (window.confirm(`Votre commande de 
-           
-    ${selectedElements.name} ${selectedElements.colors} est ajoute au panier
+    if (window.confirm(`Votre commande de           
+    ${selectedElements.name} ${selectedElements.colors} 
+    est ajoute au panier
     Pour consulter votre panier, cliquez sur OK`)) {
         window.location.href = "cart.html";
     }
 }
         
   
-// si il y a deja un produit enregistre dans le local storage
+//Si il y a deja un produit enregistre dans le local storage
 if (productInLocalStorage) {
 
     //Ajouter le produit choisi dans localstorage
