@@ -7,8 +7,6 @@ let products =JSON.parse(localStorage.getItem("product"));
 let productInLocalStorage = JSON.parse(localStorage.getItem("product"));
 console.log(productInLocalStorage);
 
-//Afficher produits du panier 
-//Injecter HTML
 const cartsPosition = document.querySelector("#cart__items");
 console.log(cartsPosition);
 
@@ -23,7 +21,7 @@ if (productInLocalStorage === null || productInLocalStorage == 0) {
     cartsPosition.innerHTML = emptyCart;
 
 } else {
-    //Boucle for pour les tous les produit stockés ds le localstorage
+    //Boucle for pour tous les produit stockés ds le localstorage
     //boucle for pour additionner la somme totale des quantités
     for(k=0;k<productInLocalStorage.length-1;k++){
         for(let j=k+1;j<productInLocalStorage.length;j++){
@@ -281,9 +279,9 @@ orders.addEventListener("click", (e) => {
         products,
         contact,
     };
-    console.log(sendValueAndProducts);
+        console.log(sendValueAndProducts);
 
-    //Envoyer l'objet sendValueAndProducts vers le serveur
+        //Envoyer l'objet sendValueAndProducts vers le serveur
         const responsePost = fetch(`http://localhost:3000/api/products/order`, {
         method: "POST",
         body: JSON.stringify(sendValueAndProducts),

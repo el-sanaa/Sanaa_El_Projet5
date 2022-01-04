@@ -1,4 +1,2 @@
-
-//Ajouter orderId à la page confirmation.html
-idCommand = localStorage.getItem("contenuId");
-document.getElementById("orderId").innerHTML = "<p>Commande validée ! <br>Votre numéro de commande est : <span >"+idCommand+"</span></p>"
+idCommand=localStorage.getItem("contenuId");
+document.getElementById("orderId").innerHTML="<p>Commande validée ! <br>Votre numéro de commande est : <span >"+idCommand+"</span></p>"
