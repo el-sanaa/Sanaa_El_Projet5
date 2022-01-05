@@ -116,12 +116,12 @@ for (let i = 0; i < myLength; ++i) {
 
 //Gestion de la quantite de produit
 let totalsQuantity = [];
+//Fixer le prix total à 0 avant le calcul
 let quantityProduct=0;
 for (let q = 0; q < productInLocalStorage.length; q++) {
      quantityProduct +=parseInt(productInLocalStorage[q].quantity);
-  
 }
-    //Mettre les prix ds la variable 
+    //Mettre les prix ds la variable //Injecter la quantity du panier dans le DOM
     let quantities = document.getElementById("totalQuantity");
     quantities.innerHTML = quantityProduct;
 
@@ -130,7 +130,7 @@ for (let q = 0; q < productInLocalStorage.length; q++) {
 //Gestion de la modification du produit
 let oneModification = document.querySelectorAll(".itemQuantity");
 console.log(oneModification);
-
+//Boucle for
 for (let m = 0; m < oneModification.length; m++) {
     oneModification[m].addEventListener("click", (event) => {
         event.preventDefault();
@@ -198,7 +198,7 @@ orders.addEventListener("click", (e) => {
         return `${value}: Veuillez renseigner ce champ`;
     }
 
-    //controler de la validité du prenom
+    //controler la validité du prenom
     function firstNameControl() {
         const validfirstName = contact.firstName;
         if (regExfirstNamelastNamecity(validfirstName)) {
