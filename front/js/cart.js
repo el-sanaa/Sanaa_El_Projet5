@@ -10,7 +10,6 @@ console.log(productInLocalStorage);
 const cartsPosition = document.querySelector("#cart__items");
 console.log(cartsPosition);
 
-
 let detailsCarts = [];
 
 //Si le panier est vide afficher vide
@@ -34,7 +33,6 @@ if (productInLocalStorage === null || productInLocalStorage == 0) {
     }
  
     //Injecter HTML
-    //Boucle for
     for (k = 0; k < productInLocalStorage.length; k++) {
         console.log(productInLocalStorage.length);
 
@@ -116,6 +114,7 @@ for (let i = 0; i < myLength; ++i) {
 
 //Gestion de la quantite de produit
 let totalsQuantity = [];
+
 //Fixer le prix total à 0 avant le calcul
 let quantityProduct=0;
 for (let q = 0; q < productInLocalStorage.length; q++) {
@@ -177,7 +176,6 @@ orders.addEventListener("click", (e) => {
     //Appeler class constructor => pour creer l'objet contact
     const contact = new constructorObjet();
     console.log(contact);
-
 
 
     //Expression régulière
@@ -327,7 +325,7 @@ orders.addEventListener("click", (e) => {
 //Chercher la key dans le localstroge et la mettre ds une variable
 const dataLocalStorage = localStorage.getItem("contact");
 
-//Convertir la chaine de caractère en objet js
+//Convertir la chaine de caractère en objet json
 const objetData = JSON.parse(dataLocalStorage);
 //console.log(objetData);
 

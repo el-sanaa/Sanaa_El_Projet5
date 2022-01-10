@@ -1,16 +1,18 @@
 //router.get('/:id', productCtrl.getOneProduct);
-//methode window.location.search
+//methode window.location.search pour récuperer la chaine de requete dans l'URL 
 const getInformation = window.location.search;
 console.log(getInformation);
 
 //methode constructor URLSearchParams pour extraire l'id
+//Utiliser opérateur NEW
+//Utiliser méthode .GET
 const kanapId = new URLSearchParams(getInformation);
 console.log(kanapId);
 
 const id = kanapId.get("id");
 console.log(id);
 
-//Interroger l’API pour récupérer les détails du produit
+//Méthode fetch pour interroger l’API pour récupérer les détails du produit
 //Récupérer un seul et unique produit
 let fetchId = fetch(`http://localhost:3000/api/products/${id}`)
     .then((res) => res.json())
@@ -108,10 +110,10 @@ const confirmation = () => {
 //Si il y a deja un produit enregistre dans le local storage
 if (productInLocalStorage) {
 
-    //Ajouter le produit choisi dans localstorage
+    //Ajouter le produit avec las values choisis par l'utilisateur
     productInLocalStorage.push(optionsProduct);
 
-    //Ajouter les options et choix du client //Transformer en format JSON
+    //Envoi au local starage //Transformer en format JSON
     localStorage.setItem("product", JSON.stringify(productInLocalStorage));
    
         console.log(productInLocalStorage);

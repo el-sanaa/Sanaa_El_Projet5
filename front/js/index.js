@@ -21,7 +21,7 @@ const productsDisplay = async () => {
      
      <a href="./product.html?id=${products._id}">
      <article>  
-             <img src="${products.imageUrl}" alt="image du canapé 1 ${products.name}" />
+             <img src="${products.imageUrl}" alt="image du canapï¿½ 1 ${products.name}" />
              <h3 class="productName">${products.name}</h3>
              <p class="productDescription">${products.description}</P>
      
